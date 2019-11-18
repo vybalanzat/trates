@@ -1,12 +1,12 @@
 
-require("dotenv").config();
+var require("dotenv").config();
 
 
 var keys = require("./keys.js");
 
 var spotify = new Spotify(keys.spotify);
 
-var inquirer = require("inquirer");
+var inquire = require("inquirer");
 
 search();
 
@@ -34,12 +34,31 @@ function search() {
         else if (response.search === "do-what-it-says") {
             random();
         }
-        else if (
+        else {
             connection.end();
-        )
+        }
     
 
     });
 
 
 }
+
+var userInput = process.argv[2];
+
+var axios = require("axios")
+
+axios.get("http://www.omdbapi.com/?t=" + userInput +  "&y=&plot=short&apikey=trilogy").then(
+
+function (reponse) ({
+    console.log(response.data)
+
+
+
+)})
+
+
+
+
+
+
