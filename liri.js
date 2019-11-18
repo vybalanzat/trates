@@ -2,27 +2,44 @@
 require("dotenv").config();
 
 
-  var keys = require("./keys.js");
+var keys = require("./keys.js");
 
-  var spotify = new Spotify(keys.spotify);
+var spotify = new Spotify(keys.spotify);
 
- var inquirer = require("inquirer");
+var inquirer = require("inquirer");
+
+search();
 
 function search() {
 
     inquire.prompt({
 
         type: "list",
-        choices: ["concert-this", "`spotify-this-song", "movie-this", "do-what-it-says"],
+        choices: ["concert-this", "spotify-this-song", "movie-this", "do-what-it-says", "close"],
         name: "search",
         message: "Pick an action!"
 
+    }).then(function(response){
+        if(response.search === "concert-this"){ 
+            findconcert();
+        }
 
+        else if (response.search === "spotify-this-song"){ 
+            findSong();
+        }
 
+        else if (response.search === "movie-this") {
+            findMovie();
+        }
+        else if (response.search === "do-what-it-says") {
+            random();
+        }
+        else if (
+            connection.end();
+        )
+    
 
-    }) 
-
-
+    });
 
 
 }
