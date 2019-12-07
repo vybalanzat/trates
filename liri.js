@@ -76,7 +76,10 @@ function findSong (songName) {
         if (err) {
           return console.log('Error occurred: ' + err);
         }
-        console.log(data.tracks.items[0].name)
+        console.log("---------------------------------------");
+        console.log(data.tracks.items[0].name);
+        console.log(data.tracks.items[0].external_urls);
+        console.log("---------------------------------------");
 
 });
 };
