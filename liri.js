@@ -1,64 +1,82 @@
 
-var require("dotenv").config();
+require("dotenv").config();
 
 
 var keys = require("./keys.js");
+var Spotify = require('node-spotify-api')
 
 var spotify = new Spotify(keys.spotify);
 
 var inquire = require("inquirer");
 
-search();
+// var userInput = process.argv.slice(3).join("");
 
-function search() {
+var axios = require("axios");
 
-    inquire.prompt({
-
-        type: "list",
-        choices: ["concert-this", "spotify-this-song", "movie-this", "do-what-it-says", "close"],
-        name: "search",
-        message: "Pick an action!"
-
-    }).then(function(response){
-        if(response.search === "concert-this"){ 
+        var userChoice = process.argv.slice(3).join("+");
+        if(process.argv[2] === "concert-this"){ 
             findconcert();
         }
 
-        else if (response.search === "spotify-this-song"){ 
-            findSong();
+        else if (process.argv[2] === "spotify-this-song"){ 
+            findSong(userChoice);
         }
 
-        else if (response.search === "movie-this") {
+        else if (process.argv[2] === "movie-this") {
             findMovie();
         }
-        else if (response.search === "do-what-it-says") {
+        else if (process.argv[2] === "do-what-it-says") {
             random();
         }
-        else {
-            connection.end();
+        // else {
+        //     connection.end();
+        // }
+
+function findMovie() {
+
+    var userMovie = process.argv.slice(3).join("+");
+ 
+    axios.get("http://www.omdbapi.com/?t=" + userMovie +  "&y=&plot=short&apikey=trilogy").then(
+        
+        function (response) {
+            console.log("---------------------------------------");
+            console.log("Title: " + response.data.Title);
+            console.log("Year: " + response.data.Year);
+            console.log("Director: " + response.data.Director);
+            console.log("Actors: " + response.data.Actors);
+            console.log("Plot: " + response.data.Plot);
+            console.log("---------------------------------------");
+            
+        })
+    };
+
+
+function findconcert () {
+
+    var userConcert = process.argv.slice(3).join("");
+
+    axios.get("https://rest.bandsintown.com/artists/" + userConcert + "/events?app_id=codingbootcamp").then(
+        function(response){
+            console.log(response.data);
         }
+    )
     
+};
 
-    });
+function findSong (songName) {
+    
+    var test; 
+    if (songName) {
+        test = songName
+    } else {
+        test = "All the small things"
+    }
 
+    spotify.search({ type: 'track', query: test }, function(err, data) {
+        if (err) {
+          return console.log('Error occurred: ' + err);
+        }
+        console.log(data.tracks.items[0].name)
 
-}
-
-var userInput = process.argv[2];
-
-var axios = require("axios")
-
-axios.get("http://www.omdbapi.com/?t=" + userInput +  "&y=&plot=short&apikey=trilogy").then(
-
-function (reponse) ({
-    console.log(response.data)
-
-
-
-)})
-
-
-
-
-
-
+});
+};
