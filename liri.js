@@ -9,6 +9,8 @@ var spotify = new Spotify(keys.spotify);
 
 var inquire = require("inquirer");
 
+var moment = require("moment");
+
 // var userInput = process.argv.slice(3).join("");
 
 var axios = require("axios");
@@ -57,7 +59,16 @@ function findconcert () {
 
     axios.get("https://rest.bandsintown.com/artists/" + userConcert + "/events?app_id=codingbootcamp").then(
         function(response){
-            console.log(response.data);
+
+            console.log("---------------------------------------");
+            console.log(response.data[0].artist.name + "'s Next Concert:");
+            console.log("Date: " + moment(response.data[0].datetime).format('LL'));
+            console.log("Venue: " + response.data[0].venue.name);
+            console.log("Location: " + response.data[0].venue.city + "," + response.data[0].venue.country);
+            console.log("---------------------------------------");
+
+            
+         
         }
     )
     
@@ -79,6 +90,7 @@ function findSong (songName) {
         console.log("---------------------------------------");
         console.log(data.tracks.items[0].name);
         console.log(data.tracks.items[0].external_urls);
+
         console.log("---------------------------------------");
 
 });
